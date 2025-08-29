@@ -1,0 +1,31 @@
+# Node.js dependencies
+node_modules/
+.npm/
+package-lock.json
+yarn.lock
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+.env
+.venv/
+env/
+venv/
+
+# VSCode workspace settings
+.vscode/
+
+# Cypress artifacts
+cypress/videos/
+cypress/screenshots/
+
+# Logs and system files
+*.log
+npm-debug.log*
+.DS_Store
+
+# LangGraph cache (if any)
+.langgraph_cache/
+
+# pytest cache (if using pytest)
+.pytest_cache/
