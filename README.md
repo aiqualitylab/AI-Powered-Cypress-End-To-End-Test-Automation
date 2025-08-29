@@ -48,8 +48,8 @@ graph LR
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd intelligent-qa-automation-cypress
+   git clone https://github.com/aiqualitylab/AI-Powered-Cypress-End-To-End-Test-Automation/
+   cd AI-Powered-Cypress-End-To-End-Test-Automation
    ```
 
 2. **Install dependencies**
@@ -205,3 +205,4 @@ Built with:
 ---
 
 *Transform your testing workflow from manual processes to AI-powered automation.*
+
