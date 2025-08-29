@@ -1,11 +1,6 @@
 # AI-Powered Cypress Test Automation
 
-> Automatically generate comprehensive end-to-end tests from Jira requirements using artificial intelligence.
-
-[![Node.js](https://img.shields.io/badge/Node.js-v14+-green.svg)](https://nodejs.org/)
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org/)
-[![Cypress](https://img.shields.io/badge/Cypress-13.17.0-brightgreen.svg)](https://cypress.io/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-orange.svg)](https://openai.com/)
+Automatically generate comprehensive end-to-end tests from Jira requirements using artificial intelligence.
 
 ## Overview
 
@@ -13,38 +8,27 @@ This system automates quality assurance by converting Jira requirements into exe
 
 ## Key Features
 
-- **Automated Test Generation**: Transform requirements into tests in minutes
-- **Jira Integration**: Direct pipeline from tickets to executable tests  
-- **AI-Powered Analysis**: Natural language processing for complex requirements
-- **Consistent Quality**: Standardized test patterns and best practices
-- **Multi-Scenario Coverage**: Automatic generation of positive and negative test cases
+- **Automated Test Generation** - Transform requirements into tests in minutes
+- **Jira Integration** - Direct pipeline from tickets to executable tests  
+- **AI-Powered Analysis** - Natural language processing for complex requirements
+- **Consistent Quality** - Standardized test patterns and best practices
+- **Multi-Scenario Coverage** - Automatic generation of positive and negative test cases
 
-## Architecture
+## Technology Stack
 
-```mermaid
-graph LR
-    A[Jira Issue] --> B[AI Parser]
-    B --> C[GPT-4 Generator]
-    C --> D[Cypress Tests]
-    D --> E[Execution]
-    E --> F[Results]
-```
+- **LangGraph** - AI workflow orchestration
+- **OpenAI GPT-4** - Intelligent test generation
+- **Cypress** - End-to-end testing framework
+- **Atlassian Jira API** - Requirement management
 
-**Technology Stack:**
-- LangGraph for AI workflow orchestration
-- OpenAI GPT-4 for intelligent test generation
-- Cypress for end-to-end testing
-- Atlassian Jira API for requirement management
+## Requirements
 
-## Quick Start
-
-### Prerequisites
-- Node.js v14+
-- Python 3.8+
+- Node.js v14 or higher
+- Python 3.8 or higher
 - Jira account with API access
 - OpenAI API key
 
-### Installation
+## Installation
 
 1. **Clone the repository**
    ```bash
@@ -52,18 +36,22 @@ graph LR
    cd intelligent-qa-automation-cypress
    ```
 
-2. **Install dependencies**
+2. **Install Python dependencies**
    ```bash
    pip install -r requirements.txt
+   ```
+
+3. **Install Node.js dependencies**
+   ```bash
    npm install
    ```
 
-3. **Configure environment**
+4. **Configure environment variables**
    ```bash
    cp .env.example .env
    ```
 
-4. **Set environment variables**
+5. **Update the .env file with your credentials**
    ```env
    JIRA_EMAIL=your-email@company.com
    JIRA_API_TOKEN=your-jira-api-token
@@ -72,116 +60,183 @@ graph LR
    OPENAI_API_KEY=your-openai-api-key
    ```
 
-5. **Run the system**
-   ```bash
-   python qa_automation.py
-   ```
-
-## API Credentials Setup
+## API Setup
 
 ### Jira API Token
+
 1. Visit [Atlassian API Tokens](https://id.atlassian.com/manage-profile/security/api-tokens)
 2. Click "Create API token"
-3. Name it "QA-Automation" and save the token
+3. Name it "QA-Automation" and save the generated token
+4. Use your Jira email and this token for authentication
 
 ### OpenAI API Key
+
 1. Go to [OpenAI API Dashboard](https://platform.openai.com/api-keys)
 2. Click "Create new secret key"
 3. Name it "QA-Automation" and copy the key immediately
+4. Ensure you have sufficient credits in your OpenAI account
 
 ## Usage
 
 ### Basic Commands
+
 ```bash
-# Generate and run tests
+# Generate and run tests from Jira requirements
 python qa_automation.py
 
-# Run Cypress interactively
+# Open Cypress Test Runner (interactive mode)
 npm run cypress:open
 
-# Run tests headlessly
+# Run tests in headless mode
 npm run cypress:run
 
 # Run specific test file
 npx cypress run --spec "cypress/e2e/generated_tests.cy.js"
 ```
 
-### Advanced Options
+### Advanced Usage
+
 ```bash
-# Debug mode
+# Enable debug mode
 DEBUG=cypress:* python qa_automation.py
 
-# Specify custom Jira issue
+# Specify a different Jira issue
 JIRA_ISSUE_KEY=PROJ-123 python qa_automation.py
+
+# Run with verbose logging
+DEBUG=cypress:*,qa:* python qa_automation.py
 ```
 
 ## Configuration
 
-### Cypress Setup
+### Cypress Configuration
+
+Create or update your `cypress.config.js`:
+
 ```javascript
-// cypress.config.js
+const { defineConfig } = require('cypress');
+
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'https://your-app.com',
+    baseUrl: 'https://your-application.com',
     viewportWidth: 1280,
     viewportHeight: 720,
     video: true,
     screenshotOnRunFailure: true,
     defaultCommandTimeout: 10000,
-    retries: 2,
+    requestTimeout: 10000,
+    responseTimeout: 10000,
+    retries: {
+      runMode: 2,
+      openMode: 1
+    },
+    env: {
+      // Add your environment-specific variables here
+    }
   },
 });
+```
+
+## Project Structure
+
+```
+intelligent-qa-automation-cypress/
+├── cypress/
+│   ├── e2e/
+│   │   └── generated_tests.cy.js
+│   ├── fixtures/
+│   ├── support/
+│   │   ├── commands.js
+│   │   └── e2e.js
+│   └── downloads/
+├── src/
+│   └── qa_automation.py
+├── requirements.txt
+├── package.json
+├── cypress.config.js
+├── .env.example
+└── README.md
 ```
 
 ## Troubleshooting
 
 ### Authentication Issues
-- Verify Jira API token hasn't expired
-- Ensure email matches Jira account
-- Test credentials: `curl -u email:token https://domain/rest/api/3/myself`
 
-### OpenAI API Errors
-- Check API key validity and billing status
-- Monitor rate limits
-- Consider using `gpt-3.5-turbo` as fallback
+**Jira API Problems:**
+- Verify your API token hasn't expired
+- Ensure the email address matches your Jira account
+- Test your credentials manually:
+  ```bash
+  curl -u your-email@company.com:your-api-token \
+    https://your-domain.atlassian.net/rest/api/3/myself
+  ```
+
+**OpenAI API Issues:**
+- Check if your API key is valid and active
+- Verify you have sufficient credits/usage limits
+- Monitor rate limits in the OpenAI dashboard
 
 ### Cypress Execution Problems
-- Reinstall Cypress: `npx cypress install`
-- Clear cache: `npx cypress cache clear`
-- Verify Node.js version compatibility
+
+**Installation Issues:**
+```bash
+# Reinstall Cypress binary
+npx cypress install
+
+# Clear Cypress cache
+npx cypress cache clear
+
+# Verify installation
+npx cypress verify
+```
+
+**Runtime Issues:**
+- Ensure Node.js version compatibility (v14+)
+- Check if your application URL is accessible
+- Verify network connectivity and firewall settings
 
 ### Debug Mode
+
+Enable comprehensive logging to diagnose issues:
+
 ```bash
-# Comprehensive logging
+# Full debug output
 DEBUG=cypress:*,qa:* python qa_automation.py
 
-# Specific component debugging
+# Cypress-specific debugging
 DEBUG=cypress:server:* npm run cypress:run
+
+# Python application debugging
+DEBUG=qa:* python qa_automation.py
 ```
 
 ## Performance Metrics
 
-| Metric | Manual Process | AI-Powered | Improvement |
-|--------|----------------|------------|-------------|
-| Test Creation Time | 2-4 hours | 2-5 minutes | 95% faster |
-| Test Coverage | 60-70% | 90-95% | 35% increase |
-| Consistency | Variable | Standardized | 100% consistent |
-| Maintenance Effort | High | Minimal | 80% reduction |
+### Time Comparison
+- **Manual Test Creation**: 2-4 hours per requirement
+- **AI-Powered Generation**: 2-5 minutes per requirement
+- **Improvement**: 95% time reduction
 
-## Quality Indicators
-- Test Reliability: 98%+ pass rate
-- False Positives: <2%
-- Coverage Accuracy: 95%+
-- Execution Speed: 3x faster than manual testing
+### Quality Metrics
+- **Test Coverage**: Increased from 60-70% to 90-95%
+- **Test Reliability**: 98%+ pass rate
+- **False Positives**: Less than 2%
+- **Maintenance Effort**: 80% reduction
 
-## Acknowledgments
+## Best Practices
 
-Built with:
-- [Cypress](https://cypress.io/) - End-to-end testing framework
-- [OpenAI](https://openai.com/) - AI language models
-- [LangGraph](https://langchain-ai.github.io/langgraph/) - AI workflow orchestration
-- [Jira API](https://developer.atlassian.com/cloud/jira/) - Requirements integration
+### Writing Effective Jira Requirements
+- Use clear, specific acceptance criteria
+- Include detailed user stories
+- Specify expected behaviors and edge cases
+- Provide examples of valid and invalid inputs
+
+### Generated Test Maintenance
+- Review generated tests before execution
+- Customize selectors for your application
+- Add application-specific validations
+- Update tests when requirements change
 
 ---
 
-*Transform your testing workflow from manual processes to AI-powered automation.*
+Transform your testing workflow from manual processes to AI-powered automation.
