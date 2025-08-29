@@ -48,7 +48,7 @@ graph LR
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/aiqualitylab/AI-Powered-Cypress-End-To-End-Test-Automation/
+   git clone https://github.com/aiqualitylab/AI-Powered-Cypress-End-To-End-Test-Automation.git
    cd AI-Powered-Cypress-End-To-End-Test-Automation
    ```
 
@@ -205,4 +205,5 @@ Built with:
 ---
 
 *Transform your testing workflow from manual processes to AI-powered automation.*
+
 
