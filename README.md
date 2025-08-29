@@ -150,6 +150,26 @@ module.exports = defineConfig({
 - Clear cache: `npx cypress cache clear`
 - Verify Node.js version compatibility
 
+### Cypress Execution Problems
+
+**Installation Issues:**
+```bash
+# Reinstall Cypress binary
+npx cypress install
+
+# Clear Cypress cache
+npx cypress cache clear
+
+# Verify installation
+npx cypress verify
+
+# If Cypress is not installed, install it
+npm install cypress --save-dev
+
+# For global installation (not recommended)
+npm install -g cypress
+```
+
 ### Debug Mode
 ```bash
 # Comprehensive logging
