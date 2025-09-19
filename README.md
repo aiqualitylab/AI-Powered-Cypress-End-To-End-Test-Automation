@@ -1,4 +1,4 @@
-# AI-Powered Cypress Test Automation
+# AI-Powered QA Automation
 
 > Automatically generate comprehensive end-to-end tests from Jira requirements using artificial intelligence with real-time failure analysis.
 
@@ -73,8 +73,8 @@ graph LR
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/aiqualitylab/AI-Powered-Cypress-End-To-End-Test-Automation.git
-   cd AI-Powered-Cypress-End-To-End-Test-Automation
+   git clone https://github.com/aiqualitylab/ai-powered-qa-automation.git
+   cd ai-powered-qa-automation
    ```
 
 2. **Install dependencies**
@@ -137,30 +137,9 @@ npm run cypress:run
 npx cypress run --spec "cypress/e2e/generated_tests.cy.js"
 ```
 
-
-## AI Analysis in Action
-
-### Example: Real-Time Error Detection
-```bash
-🚀 Starting QA Test Generation Workflow with Enhanced AI Analysis
-
-✅ Fetched Jira issue KAN-1: User login functionality with validation...
-
-🧪 Running Cypress tests (live logs + AI analysis)...
-
-Running: cypress/e2e/generated_tests.cy.js
-  ❌ Timed out retrying after 4000ms: Expected to find element: #username
-
-🤖 AI Hint: ⏰ TIMEOUT ERROR → Increase timeout with cy.get(selector, {timeout: 10000}) or add cy.wait()
-
-  ❌ Element not visible: button[type="submit"]
-
-🤖 AI Hint: 👁️ ELEMENT NOT VISIBLE → Add cy.scrollIntoView() or check if element is hidden/covered
-```
-
 ### Directory Structure After Setup
 ```
-AI-Powered-Cypress-End-To-End-Test-Automation/
+ai-powered-qa-automation/
 ├── qa_automation.py
 ├── cypress/
 │   └── e2e/
@@ -239,3 +218,4 @@ Built with:
 ---
 
 *Transform your testing workflow from manual processes to AI-powered automation with intelligent, real-time failure analysis.*
+
