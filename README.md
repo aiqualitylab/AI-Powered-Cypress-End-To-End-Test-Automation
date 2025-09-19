@@ -29,7 +29,7 @@ This system automates quality assurance by converting Jira requirements into exe
 
 ### Framework Execution Flow
 ```
-Jira Requirements → AI Parser → GPT-4o-mini Generator
+               Jira Requirements → AI Parser → GPT-4o-mini Generator
                                       ↓
                             Cypress Test Generation
                                       ↓
@@ -416,3 +416,4 @@ Built with:
 ---
 
 *Transform your testing workflow from manual processes to AI-powered automation with dual framework support, providing comprehensive coverage through both Cypress and Playwright with intelligent, real-time failure analysis.*
+
