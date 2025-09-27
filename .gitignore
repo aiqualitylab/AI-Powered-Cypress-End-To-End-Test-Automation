@@ -7,25 +7,106 @@ yarn.lock
 # Python artifacts
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Environment variables
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Virtual environments
 .venv/
 env/
 venv/
+ENV/
+env.bak/
+venv.bak/
 
 # VSCode workspace settings
 .vscode/
+*.code-workspace
 
 # Cypress artifacts
 cypress/videos/
 cypress/screenshots/
+cypress/downloads/
+
+# Playwright artifacts
+playwright/test-results/
+playwright/playwright-report/
+playwright/.auth/
+
+# Jest/Supertest artifacts
+coverage/
+.nyc_output/
+
+# Generated test files (optional - uncomment if you don't want to track generated tests)
+# cypress/e2e/generated_tests.cy.js
+# playwright/tests/generated_tests.spec.js
+# supertest/tests/generated_tests.spec.js
+
+# Auto-generated Express app (optional - uncomment if you don't want to track)
+# app.js
 
 # Logs and system files
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .DS_Store
+Thumbs.db
 
-# LangGraph cache (if any)
+# Vector store data
+vector_store/
+chroma.db/
+.chroma/
+
+# Jira requirements cache
+jira_requirements/
+
+# LangGraph/LangChain cache
 .langgraph_cache/
+.langchain_cache/
 
-# pytest cache (if using pytest)
+# pytest cache
 .pytest_cache/
+.coverage
+htmlcov/
+
+# IDE files
+*.swp
+*.swo
+*~
+.idea/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
