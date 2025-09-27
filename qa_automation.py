@@ -15,7 +15,7 @@ load_dotenv()
 JIRA_EMAIL = os.getenv("JIRA_EMAIL")
 JIRA_API_TOKEN = os.getenv("JIRA_API_TOKEN")
 JIRA_DOMAIN = os.getenv("JIRA_DOMAIN")
-JIRA_ISSUE_KEY = os.getenv("JIRA_ISSUE_KEY", "KAN-1")
+JIRA_ISSUE_KEY = os.getenv("JIRA_ISSUE_KEY", "KAN-1")  #  CHANGE JIRA ISSUE KEY HERE
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Validate required environment variables
@@ -33,6 +33,34 @@ class QAState(dict):
     requirements: str = ""
     cypress_test_code: str = ""
     playwright_test_code: str = ""
+    supertest_test_code: str = ""
+
+# --- Ensure Express app exists for Supertest ---
+def ensure_express_app():
+    app_path = "app.js"
+    if not os.path.exists(app_path):
+        print("📦 Creating minimal Express app for Supertest at app.js...")
+        content = """
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+  if (username === 'tomsmith' && password === 'SuperSecretPassword!') {
+    return res.status(200).json({ message: 'Login successful' });
+  }
+  return res.status(401).json({ message: 'Invalid credentials' });
+});
+
+module.exports = app;
+"""
+        with open(app_path, "w") as f:
+            f.write(content)
+        print("✅ Express app created.")
+    else:
+        print("ℹ️ Express app already exists at app.js")
 
 # --- Fetch Jira Requirements (placeholder) ---
 def fetch_jira_requirements(state: QAState, domain, issue_key, email, token):
@@ -117,6 +145,31 @@ Output only valid Playwright JavaScript code without markdown formatting.
         state["playwright_test_code"] = f"// Error generating Playwright tests: {e}"
     return state
 
+# --- Generate Supertest Tests ---
+def generate_supertest_tests(state: QAState):
+    prompt = f"""
+Convert the following Jira requirement into comprehensive API test code using Supertest + Jest.
+
+Requirement:
+{state['requirements']}
+
+Generate Node.js test code that:
+
+1. Uses Supertest with Jest.
+2. Tests a RESTful login endpoint at POST /api/login (placeholder).
+3. Includes positive and negative test case with valid username (tomsmith) and password (SuperSecretPassword!) and no  expect(response.body) assertions.
+4. Import the Express app from '../../app' (correct path relative to supertest/tests)
+5. Export only valid JavaScript code without markdown formatting.
+"""
+    try:
+        response = llm.invoke(prompt)
+        state["supertest_test_code"] = response.content
+        print("✅ Generated Supertest test code")
+    except Exception as e:
+        print(f"❌ Error generating Supertest tests: {e}")
+        state["supertest_test_code"] = f"// Error generating Supertest tests: {e}"
+    return state
+
 # --- Save & Run Cypress ---
 def save_and_run_cypress_tests(state: QAState):
     test_path = "cypress/e2e/generated_tests.cy.js"
@@ -143,11 +196,27 @@ def save_and_run_playwright_tests(state: QAState):
     except Exception as e:
         print(f"❌ Error running Playwright tests: {e}")
 
+# --- Save & Run Supertest ---
+def save_and_run_supertest_tests(state: QAState):
+    test_path = "supertest/tests/generated_tests.spec.js"
+    os.makedirs(os.path.dirname(test_path), exist_ok=True)
+    with open(test_path, "w") as f:
+        f.write(state.get("supertest_test_code", "// No Supertest test code"))
+    print(f"✅ Supertest test saved to {test_path}")
+    try:
+        subprocess.run(["npx", "jest", test_path], check=True, shell=True)
+        print("✅ Supertest tests executed successfully")
+    except Exception as e:
+        print(f"❌ Error running Supertest tests: {e}")
+
 # --- Main ---
 if __name__ == "__main__":
-    print("🚀 QA Test Workflow: Cypress first, then Playwright sequentially")
+    print("🚀 QA Test Workflow: Cypress, Playwright, Supertest sequentially")
 
     state = QAState()
+
+    # Ensure Express app exists for Supertest
+    ensure_express_app()
 
     print("\n1️⃣ Fetching Jira requirements...")
     state = fetch_jira_requirements(state, JIRA_DOMAIN, JIRA_ISSUE_KEY, JIRA_EMAIL, JIRA_API_TOKEN)
@@ -161,15 +230,24 @@ if __name__ == "__main__":
     print("\n4️⃣ Generating Playwright tests...")
     state = generate_playwright_tests(state)
 
+    print("\n5️⃣ Generating Supertest tests...")
+    state = generate_supertest_tests(state)
+
     print("\n⚡ Running Cypress tests first...")
     save_and_run_cypress_tests(state)
 
     print("\n⚡ Running Playwright tests next...")
     save_and_run_playwright_tests(state)
 
+    print("\n⚡ Running Supertest tests last...")
+    save_and_run_supertest_tests(state)
+
     print("\n🎉 Workflow completed!")
     print("\n🔍 Next steps:")
     print("   • Cypress: check cypress/e2e/generated_tests.cy.js")
     print("   • Playwright: check playwright/tests/generated_tests.spec.js")
-    print("   • Run Cypress manually: npx cypress run --spec cypress/e2e/generated_tests.cy.js")
-    print("   • Run Playwright manually: npx playwright test playwright/tests/generated_tests.spec.js")
+    print("   • Supertest: check supertest/tests/generated_tests.spec.js")
+    print("   • Run manually if needed:")
+    print("     - npx cypress run --spec cypress/e2e/generated_tests.cy.js")
+    print("     - npx playwright test playwright/tests/generated_tests.spec.js")
+    print("     - npx jest supertest/tests/generated_tests.spec.js")
