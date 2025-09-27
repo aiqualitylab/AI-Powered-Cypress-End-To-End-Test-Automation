@@ -1,6 +1,9 @@
 # Environment management
 python-dotenv
 
+# Terminal colors and output
+colorama
+
 # HTTP requests
 requests
 
@@ -8,7 +11,8 @@ requests
 langchain
 langchain-community
 langchain-openai
-langgraph
+
+# Vector database (if using vector store functionality)
 chromadb
 
 # Text processing
