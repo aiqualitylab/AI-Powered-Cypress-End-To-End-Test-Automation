@@ -1,63 +1,61 @@
 # AI-Powered QA Automation
 
-> Automatically generate comprehensive end-to-end tests from Jira requirements using artificial intelligence with dual framework support (Cypress + Playwright) and real-time failure analysis.
+> Automatically generate comprehensive tests from Jira requirements using artificial intelligence with triple framework support (Cypress + Playwright + Supertest) and comprehensive error handling.
 
 [![Node.js](https://img.shields.io/badge/Node.js-v14+-green.svg)](https://nodejs.org/)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org/)
 [![Cypress](https://img.shields.io/badge/Cypress-13.17.0-brightgreen.svg)](https://cypress.io/)
 [![Playwright](https://img.shields.io/badge/Playwright-Latest-blue.svg)](https://playwright.dev/)
+[![Supertest](https://img.shields.io/badge/Supertest-Latest-red.svg)](https://github.com/visionmedia/supertest)
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-orange.svg)](https://openai.com/)
 
 ## Overview
 
-This system automates quality assurance by converting Jira requirements into executable tests using GPT-4o-mini for **both Cypress and Playwright frameworks**. It eliminates manual test writing while ensuring comprehensive coverage and consistent quality across multiple testing frameworks. **Enhanced with real-time AI-powered failure analysis and intelligent debugging assistance.**
+This system automates quality assurance by converting Jira requirements into executable tests using GPT-4o-mini for **three comprehensive testing frameworks**: Cypress (E2E), Playwright (E2E), and Supertest (API). It eliminates manual test writing while ensuring comprehensive coverage across UI and API layers with consistent quality. **Enhanced with comprehensive error handling and framework-specific debugging assistance.**
 
 ## Key Features
 
-- **🎯 Dual Framework Support**: Generate identical test scenarios for both Cypress and Playwright
-- **🤖 Automated Test Generation**: Transform requirements into tests in minutes for both frameworks
+- **🎯 Triple Framework Support**: Generate test scenarios for Cypress, Playwright, and Supertest
+- **⚡ Super-Fast API Testing**: Lightning-fast Supertest + Jest API validation
+- **🤖 Automated Test Generation**: Transform requirements into tests in minutes across all frameworks
 - **🔗 Jira Integration**: Direct pipeline from tickets to executable tests  
 - **🧠 AI-Powered Analysis**: Natural language processing for complex requirements
-- **⚡ Sequential Test Execution**: Run Cypress tests first, then Playwright automatically
-- **🔍 Real-Time AI Analysis**: Live error detection with intelligent debugging hints during test execution
-- **🧩 Pattern-Based Intelligence**: Recognizes common testing issues across both frameworks
-- **📊 Enhanced Error Recognition**: Contextual failure analysis with actionable remediation steps
-- **✅ Consistent Quality**: Standardized test patterns and best practices for both frameworks
-- **🔄 Multi-Scenario Coverage**: Automatic generation of positive and negative test cases
+- **⚡ Optimized Sequential Execution**: Run Cypress → Playwright → Supertest (super-fast API validation)
+- **🔍 Comprehensive Error Handling**: Enhanced error detection and debugging across all frameworks
+- **🧩 Framework-Specific Intelligence**: Optimized test generation for each framework's strengths
+- **📊 Detailed Test Reports**: Clear execution results and framework-specific insights
+- **✅ Consistent Quality**: Standardized test patterns and best practices for all frameworks
+- **🔄 Multi-Layer Coverage**: API validation + E2E automation for complete testing
 
-## ✨ Enhanced Dual Framework Architecture
+## ✨ Enhanced Triple Framework Architecture
 
 ### Framework Execution Flow
 ```
                Jira Requirements → AI Parser → GPT-4o-mini Generator
                                       ↓
-                            Cypress Test Generation
+                            E2E Test Generation (Cypress)
                                       ↓
-                           Playwright Test Generation
+                          E2E Test Generation (Playwright)
                                       ↓
-                              Save Both Test Files
+                            API Test Generation (Supertest)
                                       ↓
-                             Execute Cypress Tests
+                              Save All Test Files
                                       ↓
-                            Execute Playwright Tests
+                             Execute Cypress Tests (E2E)
+                                      ↓
+                            Execute Playwright Tests (E2E)
+                                      ↓
+                           Execute Supertest Tests (API)
                                       ↓
                           Combined Results & Analysis
 ```
-
-### Framework Comparison & Benefits
-| Feature | Cypress | Playwright | Implementation |
-|---------|---------|------------|----------------|
-| **Browser Support** | Chromium-based, Firefox | Chrome, Firefox, Safari, Edge | Complementary coverage |
-| **Execution Speed** | Fast debugging | Parallel execution | Sequential run for comparison |
-| **Element Handling** | jQuery-style | Modern selectors | Consistent test logic |
-| **Network Stubbing** | Built-in | Advanced API mocking | Framework-specific approaches |
-| **Screenshots/Videos** | Automatic | On-failure | Enhanced debugging |
 
 ## Architecture
 
 **Technology Stack:**
 - **LangGraph** for AI workflow orchestration
 - **OpenAI GPT-4o-mini** for intelligent test generation and failure analysis
+- **Supertest + Jest** for lightning-fast API endpoint testing
 - **Cypress** for comprehensive end-to-end testing with excellent debugging
 - **Playwright** for cross-browser automation and parallel execution
 - **Atlassian Jira API** for requirement management
@@ -85,8 +83,11 @@ This system automates quality assurance by converting Jira requirements into exe
    pip install -r requirements.txt
    ```
 
-3. **Install Node.js dependencies for both frameworks**
+3. **Install Node.js dependencies for all frameworks**
    ```bash
+   # Install Supertest + Jest for API testing
+   npm install supertest jest express --save-dev
+   
    # Install Cypress
    npm install cypress --save-dev
    
@@ -99,6 +100,7 @@ This system automates quality assurance by converting Jira requirements into exe
    ```bash
    mkdir -p cypress/e2e
    mkdir -p playwright/tests
+   mkdir -p supertest/tests
    mkdir -p jira_requirements
    mkdir -p vector_store
    ```
@@ -117,32 +119,50 @@ This system automates quality assurance by converting Jira requirements into exe
    OPENAI_API_KEY=your-openai-api-key
    ```
 
-7. **Run the dual-framework system**
+7. **Run the triple-framework system**
    ```bash
    python qa_automation.py
    ```
 
 ## Usage
 
-### Automated Dual Framework Execution
+### Automated Triple Framework Execution
 ```bash
-# Generate and run tests for both frameworks sequentially
+# Generate and run tests for all three frameworks sequentially
 python qa_automation.py
 ```
 
 This command will:
 1. Fetch Jira requirements
-2. Generate Cypress test code
-3. Generate Playwright test code
-4. Save Cypress tests to `cypress/e2e/generated_tests.cy.js`
-5. Save Playwright tests to `playwright/tests/generated_tests.spec.js`
-6. Execute Cypress tests first
-7. Execute Playwright tests second
-8. Display combined results
+2. Generate Cypress E2E test code
+3. Generate Playwright E2E test code
+4. Generate Supertest API test code
+5. Save Cypress tests to `cypress/e2e/generated_tests.cy.js`
+6. Save Playwright tests to `playwright/tests/generated_tests.spec.js`
+7. Save Supertest tests to `supertest/tests/generated_tests.spec.js`
+8. Execute Cypress tests first (E2E debugging)
+9. Execute Playwright tests second (cross-browser E2E)
+10. Execute Supertest tests third (super-fast API validation)
+11. Display combined results
 
 ### Manual Framework-Specific Commands
 
-#### Cypress Commands
+#### Supertest + Jest Commands (API Testing)
+```bash
+# Run generated API tests
+npx jest supertest/tests/generated_tests.spec.js
+
+# Run all API tests with coverage
+npx jest supertest/ --coverage
+
+# Run API tests in watch mode
+npx jest supertest/ --watch
+
+# Run API tests with verbose output
+npx jest supertest/ --verbose
+```
+
+#### Cypress Commands (E2E Testing)
 ```bash
 # Run Cypress interactively
 npx cypress open
@@ -154,7 +174,7 @@ npx cypress run --spec cypress/e2e/generated_tests.cy.js
 npx cypress run
 ```
 
-#### Playwright Commands
+#### Playwright Commands (E2E Testing)
 ```bash
 # Run generated Playwright tests
 npx playwright test playwright/tests/generated_tests.spec.js
@@ -175,7 +195,8 @@ npx playwright test --project=chromium
 ### Directory Structure After Setup
 ```
 ai-powered-qa-automation/
-├── qa_automation.py                    # Main dual-framework automation script
+├── qa_automation.py                    # Main triple-framework automation script
+├── app.js                             # Auto-generated Express app for Supertest
 ├── cypress/
 │   ├── e2e/
 │   │   └── generated_tests.cy.js      # AI-generated Cypress tests
@@ -184,6 +205,10 @@ ai-powered-qa-automation/
 │   ├── tests/
 │   │   └── generated_tests.spec.js    # AI-generated Playwright tests
 │   └── playwright.config.js
+├── supertest/
+│   ├── tests/
+│   │   └── generated_tests.spec.js    # AI-generated Supertest API tests
+│   └── jest.config.js
 ├── jira_requirements/                  # Jira requirement storage
 ├── vector_store/                       # ChromaDB embeddings
 ├── package.json
@@ -191,6 +216,21 @@ ai-powered-qa-automation/
 ```
 
 ## Framework Configuration
+
+### Jest Configuration (`jest.config.js`)
+```javascript
+module.exports = {
+  testEnvironment: 'node',
+  testMatch: ['**/supertest/**/*.spec.js'],
+  collectCoverageFrom: [
+    'app.js',
+    'routes/**/*.js'
+  ],
+  coverageDirectory: 'coverage',
+  verbose: true,
+  setupFilesAfterEnv: ['<rootDir>/supertest/setup.js']
+};
+```
 
 ### Cypress Configuration (`cypress.config.js`)
 ```javascript
@@ -258,19 +298,52 @@ module.exports = defineConfig({
 ## Test Generation Features
 
 ### AI-Generated Test Scenarios
-Both frameworks generate tests with:
-- ✅ Proper test structure (`describe`/`it` blocks for Cypress, `test.describe`/`test` for Playwright)
+All frameworks generate tests with:
+- ✅ **Supertest**: Direct API endpoint testing with request/response validation
+- ✅ **Cypress**: Proper test structure (`describe`/`it` blocks) with UI interaction
+- ✅ **Playwright**: Modern test structure (`test.describe`/`test`) with cross-browser support
 - ✅ Test data setup with realistic credentials
 - ✅ Positive test cases (valid login: `tomsmith` / `SuperSecretPassword!`)
 - ✅ Negative test cases (invalid credentials)
 - ✅ Proper wait conditions and timeouts
-- ✅ Success redirect verification (`/secure` page)
-- ✅ Error message validation
-- ✅ Screenshot capture on failures
+- ✅ Success validation (API 200 status, UI redirect to `/secure`)
+- ✅ Error handling (API 401 status, UI error messages)
+- ✅ Screenshot capture on failures (E2E tests)
 
 ### Example Generated Test Output
 
-#### Cypress Test Structure
+#### Supertest API Test Structure
+```javascript
+const request = require('supertest');
+const app = require('../../app');
+
+describe('API Login Functionality', () => {
+  test('should successfully authenticate with valid credentials', async () => {
+    const response = await request(app)
+      .post('/api/login')
+      .send({
+        username: 'tomsmith',
+        password: 'SuperSecretPassword!'
+      });
+    
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Login successful');
+  });
+
+  test('should reject invalid credentials', async () => {
+    const response = await request(app)
+      .post('/api/login')
+      .send({
+        username: 'invalid',
+        password: 'wrong'
+      });
+    
+    expect(response.status).toBe(401);
+  });
+});
+```
+
+#### Cypress E2E Test Structure
 ```javascript
 describe('User Login Functionality', () => {
   it('should successfully log in with valid credentials', () => {
@@ -288,7 +361,7 @@ describe('User Login Functionality', () => {
 });
 ```
 
-#### Playwright Test Structure
+#### Playwright E2E Test Structure
 ```javascript
 const { test, expect } = require('@playwright/test');
 
@@ -307,25 +380,26 @@ test.describe('User Login Functionality', () => {
 });
 ```
 
-## Enhanced AI Failure Analysis
-
-### Dual Framework Error Detection
-The AI system provides intelligent analysis for both frameworks:
-
-| Error Category | Cypress Detection | Playwright Detection | AI Solution |
-|----------------|------------------|---------------------|-------------|
-| 🔧 Installation | Cypress binary issues | Browser installation | `npx cypress install` / `npx playwright install` |
-| 🔍 Element Selection | jQuery selectors | Modern selectors | Framework-specific selector strategies |
-| ⏰ Timeouts | Command timeouts | Action timeouts | Increased timeout configurations |
-| 🌐 Network Issues | cy.intercept() problems | Route handling | Framework-appropriate network mocking |
-| 👁️ Visibility | Element not visible | Element not actionable | `cy.scrollIntoView()` / `scrollIntoViewIfNeeded` |
-
 ### Real-Time Monitoring Features
-- **Live error detection** during test execution
-- **Framework-specific debugging hints**
-- **Comparative analysis** between Cypress and Playwright results
+- **Comprehensive error handling** during test execution across all frameworks
+- **Framework-specific debugging guidance** for API and UI issues
+- **Sequential execution** with clear status reporting for each framework
 - **Color-coded terminal output** for immediate issue identification
-- **Post-execution summary** with actionable recommendations
+- **Post-execution summary** with framework-specific results and next steps
+
+## Performance & Optimization
+
+### Speed Comparison
+- **Supertest**: ~100-500ms per test (API only)
+- **Cypress**: ~2-5 seconds per test (UI automation)
+- **Playwright**: ~3-8 seconds per test (cross-browser)
+
+### Best Practices
+- Use Supertest for rapid API feedback in development
+- Use Cypress for debugging UI interactions and user flows
+- Use Playwright for comprehensive cross-browser CI/CD validation
+- Compare API responses with UI behavior for complete coverage
+- Leverage the speed of API tests to catch issues early
 
 ## Troubleshooting
 
@@ -333,6 +407,10 @@ The AI system provides intelligent analysis for both frameworks:
 
 #### Framework Installation
 ```bash
+# Supertest + Jest installation issues
+npm install supertest jest express --save-dev
+npm test -- --detectOpenHandles
+
 # Cypress installation issues
 npx cypress install --force
 npx cypress cache clear
@@ -354,6 +432,18 @@ npx playwright install --with-deps
 - Verify model availability in your region
 
 ### Framework-Specific Debugging
+
+#### Supertest Debugging
+```bash
+# Run with debug output
+DEBUG=supertest npx jest supertest/
+
+# Run single test file
+npx jest supertest/tests/generated_tests.spec.js --verbose
+
+# Check Express app manually
+node -e "const app = require('./app'); console.log('Express app loaded successfully');"
+```
 
 #### Cypress Debugging
 ```bash
@@ -388,23 +478,25 @@ npx playwright test --trace on
 2. Click "Create new secret key"
 3. Name it "QA-Automation" and copy the key immediately
 
-## Performance & Comparison
+## Performance Metrics & Comparison
 
 ### Execution Metrics
+- **Supertest**: Ultra-fast API validation, immediate feedback on backend issues
 - **Cypress**: Excellent for debugging, real-time browser interaction
 - **Playwright**: Superior for cross-browser testing, parallel execution
-- **Combined Approach**: Maximum coverage with complementary strengths
+- **Combined Approach**: Maximum coverage with layered validation (API → UI → Cross-browser)
 
-### Best Practices
-- Use Cypress for development and debugging
-- Use Playwright for CI/CD and cross-browser validation
-- Compare results between frameworks for comprehensive quality assurance
-- Leverage framework-specific features (Cypress Studio, Playwright Codegen)
-
+### Coverage Benefits
+- **API Layer**: Backend logic, authentication, data validation
+- **UI Layer**: User experience, visual elements, user flows
+- **Cross-browser**: Compatibility across different browsers and devices
+- **Integration**: End-to-end data flow from API to UI
 
 ## Acknowledgments
 
 Built with:
+- [Supertest](https://github.com/visionmedia/supertest) - HTTP assertion library for API testing
+- [Jest](https://jestjs.io/) - JavaScript testing framework with excellent mocking capabilities
 - [Cypress](https://cypress.io/) - End-to-end testing framework with excellent developer experience
 - [Playwright](https://playwright.dev/) - Cross-browser automation library
 - [OpenAI](https://openai.com/) - AI language models (GPT-4o-mini) for generation and analysis
@@ -415,5 +507,4 @@ Built with:
 
 ---
 
-*Transform your testing workflow from manual processes to AI-powered automation with dual framework support, providing comprehensive coverage through both Cypress and Playwright with intelligent, real-time failure analysis.*
-
+*Transform your testing workflow from manual processes to AI-powered automation with triple framework support, providing comprehensive coverage through API testing (Supertest), E2E automation (Cypress), and cross-browser validation (Playwright) with comprehensive error handling and framework-specific debugging guidance.*
